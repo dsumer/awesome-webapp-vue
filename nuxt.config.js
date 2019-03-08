@@ -40,7 +40,16 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
   ],
+
+  axios: {
+    proxy: true
+  },
+
+  proxy: {
+    '/api': { target: 'http://localhost:8080', pathRewrite: {'^/api': ''} }
+  },
 
   /*
   ** Build configuration

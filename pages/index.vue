@@ -2,36 +2,42 @@
   <div class="wrapper">
     ahoi!
     <br/>
-    Stars Count (Server Side): {{ serverSideStars }}
+    Greeting (Server Side): {{ serverSideGreeting }}
     <br/>
-    Stars Count (Client Side): {{ clientSideStars }}
+    Greeting (Client Side): {{ clientSideGreeting }}
+    <br/>
+    <input type="text" v-model="localName" /> <button @click="changeName()">Change Name</button>
   </div>
 </template>
 
 <script>
-import fetch from 'isomorphic-unfetch';
-
-const fetchStars = async () => {
-  const res = await fetch('https://api.github.com/repos/zeit/next.js')
-  const json = await res.json()
-  return json.stargazers_count
+const fetchStars = async ($axios) => {
+  const res = await $axios.$get('/api/greeting')
+  return res
 }
 
 export default {
   data() {
     return {
-      clientSideStars: 0
+      clientSideGreeting: 0,
+      localName: ''
     }
   },
-  async asyncData() {
-    const serverSideStars = await fetchStars();
+  async asyncData({$axios}) {
+    const serverSideGreeting = await fetchStars($axios);
     return {
-      serverSideStars
+      serverSideGreeting
     }
   },
   async mounted() {
-    const clientSideStars = await fetchStars();
-    this.clientSideStars = clientSideStars;
+    const clientSideGreeting = await fetchStars(this.$axios);
+    this.clientSideGreeting = clientSideGreeting;
+  },
+  methods: {
+    async changeName() {
+      const res = await this.$axios.$post('/api/greeting', this.localName, {headers: {"Content-Type": "text/plain"}})
+      console.log(res)
+    }
   }
 }
 </script>

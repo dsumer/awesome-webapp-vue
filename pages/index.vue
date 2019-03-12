@@ -1,12 +1,20 @@
 <template>
   <div class="wrapper">
-    ahoi!
-    <br/>
-    Greeting (Server Side): {{ serverSideGreeting }}
-    <br/>
-    Greeting (Client Side): {{ clientSideGreeting }}
-    <br/>
-    <input type="text" v-model="localName" /> <button @click="changeName()">Change Name</button>
+    <p>
+      ahoi!
+    </p>
+    <p>
+      Greeting (Server Side): {{ serverSideGreeting }}
+    </p>
+    <p>
+      Greeting (Client Side): {{ clientSideGreeting }}
+    </p>
+    <p>
+      <input type="text" v-model="localName" /> <button @click="changeName()">Change Name</button>
+    </p>
+    <p>
+      <nuxt-link to="/second" no-prefetch>Go to the second page</nuxt-link>
+    </p>
   </div>
 </template>
 
@@ -45,5 +53,8 @@ export default {
 <style>
   .wrapper {
     text-align: center;
+  }
+  p {
+    margin-top: 0;
   }
 </style>
